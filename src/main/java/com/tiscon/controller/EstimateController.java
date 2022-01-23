@@ -132,10 +132,17 @@ public class EstimateController {
         BeanUtils.copyProperties(userOrderForm, dto);
         Integer price = estimateService.getPrice(dto);
 
-        model.addAttribute("prefectures", estimateDAO.getAllPrefectures());
-        model.addAttribute("userOrderForm", userOrderForm);
-        model.addAttribute("price", price);
+        if (price != -1){
+            model.addAttribute("prefectures", estimateDAO.getAllPrefectures());
+            model.addAttribute("userOrderForm", userOrderForm);
+            model.addAttribute("price", price);
         return "result";
+        }else{
+            model.addAttribute("prefectures", estimateDAO.getAllPrefectures());
+            model.addAttribute("userOrderForm", userOrderForm);
+            return "test_move";
+        }
+
     }
 
     /**
@@ -161,5 +168,18 @@ public class EstimateController {
 
         return "complete";
     }
+
+    @GetMapping("test_move")
+    String test_move(Model model) {
+//        if (!model.containsAttribute("userOrderForm")) {
+//            model.addAttribute("userOrderForm", new UserOrderForm());
+//        }
+//
+//        model.addAttribute("prefectures", estimateDAO.getAllPrefectures());
+        return "test_move";
+    }
+
+
+
 
 }

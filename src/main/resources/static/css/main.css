@@ -307,3 +307,34 @@ td {
     border-radius: .28571429rem;
     border: 1px solid rgba(34,36,38,.15);
 }
+
+#total{
+    margin: 30px;
+    width: 800px;
+    text-align: center;
+    background: #FFF;
+    box-shadow: 0 1px 2px 0 rgba(34,36,38,.15);
+    padding: 1em;
+    border-radius: .28571429rem;
+    border: 1px solid rgba(34,36,38,.15);
+}
+
+.sub-title2 {
+    margin: 48px 0px 32px;
+    color: #FF3333;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 21px;
+    font-family: "Roboto";
+}
+.big-title {
+     margin: 48px 0px 32px;
+     color: #FF3333;
+     text-align: center;
+     font-style: normal;
+     font-weight: bold;
+     font-size: 18px;
+     line-height: 21px;
+     font-family: "Roboto";
+ }
