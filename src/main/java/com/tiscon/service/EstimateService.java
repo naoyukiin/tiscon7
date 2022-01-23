@@ -22,7 +22,9 @@ import java.util.List;
 @Service
 public class EstimateService {
 
-    /** 引越しする距離の1 kmあたりの料金[円] */
+    /**
+     * 引越しする距離の1 kmあたりの料金[円]
+     */
     private static final int PRICE_PER_DISTANCE = 100;
 
     private final EstimateDao estimateDAO;
@@ -81,51 +83,49 @@ public class EstimateService {
                 + getBoxForPackage(dto.getBed(), PackageType.BED)
                 + getBoxForPackage(dto.getBicycle(), PackageType.BICYCLE)
                 + getBoxForPackage(dto.getWashingMachine(), PackageType.WASHING_MACHINE);
-        if ((boxes >0)&&(boxes<201)){
+        if ((boxes > 0) && (boxes < 201)) {
 
 
+            // 箱に応じてトラックの種類が変わり、それに応じて料金が変わるためトラック料金を算出する。
+            double pricePerTruck = estimateDAO.getPricePerTruck(boxes);
+
+            // オプションサービスの料金を算出する。
+            double priceForOptionalService = 0;
+
+            if (dto.getWashingMachineInstallation()) {
+                priceForOptionalService = estimateDAO.getPricePerOptionalService(OptionalServiceType.WASHING_MACHINE.getCode());
+            }
+
+            double coefficient = 1.0;
 
 
-        // 箱に応じてトラックの種類が変わり、それに応じて料金が変わるためトラック料金を算出する。
-        double pricePerTruck = estimateDAO.getPricePerTruck(boxes);
+            String carryMonth = dto.getCarryDate();
 
-        // オプションサービスの料金を算出する。
-        double priceForOptionalService = 0;
+            String check = carryMonth.substring(5, 6);
 
-        if (dto.getWashingMachineInstallation()) {
-            priceForOptionalService = estimateDAO.getPricePerOptionalService(OptionalServiceType.WASHING_MACHINE.getCode());
+            if (check.equals("3")) {
+                coefficient = 1.5;
+            } else if (check.equals("4")) {
+                coefficient = 1.5;
+            } else if (check.equals("9")) {
+                coefficient = 1.2;
+            }
+
+
+            return (priceForDistance + pricePerTruck) * coefficient + priceForOptionalService;
+        } else {
+            return -1;
         }
-
-        double  coefficient = 1.0;
-
-
-        String carryMonth = dto.getCarryDate();
-
-        String check = carryMonth.substring(5,6);
-
-        if(check.equals("3")){
-            coefficient = 1.5 ;
-        }
-        else if(check.equals("4")){
-            coefficient = 1.5;
-        }
-        else if(check.equals("9")){
-            coefficient = 1.2;
-        }
-
-
-        return (priceForDistance + pricePerTruck) * coefficient + priceForOptionalService;}else{
-                return -1;
     }
 
-    /**
-     * 荷物当たりの段ボール数を算出する。
-     *
-     * @param packageNum 荷物数
-     * @param type       荷物の種類
-     * @return 段ボール数
-     */
-    private int getBoxForPackage(int packageNum, PackageType type) {
-        return packageNum * estimateDAO.getBoxPerPackage(type.getCode());
+        /**
+         * 荷物当たりの段ボール数を算出する。
+         *
+         * @param packageNum 荷物数
+         * @param type       荷物の種類
+         * @return 段ボール数
+         */
+        private int getBoxForPackage ( int packageNum, PackageType type){
+            return packageNum * estimateDAO.getBoxPerPackage(type.getCode());
+        }
     }
-}
