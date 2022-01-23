@@ -8,6 +8,8 @@
   <link rel="stylesheet" th:href="@{http://fonts.googleapis.com/css?family=Exo:900}"
         href="http://fonts.googleapis.com/css?family=Exo:900"/>
   <link rel="stylesheet" th:href="@{/css/main.css}" href="../static/css/main.css">
+
+
 </head>
 
 <body>
@@ -71,21 +73,27 @@
       <div class="sub-title">お荷物情報</div>
         <div class="form-group">
           <label for="box">段ボールの個数</label>
-          <input type="text" id="box" name="box" th:field="*{box}" class="form-control" value="10"/>
+          <input type="number"  min="0" id="box" name="box" th:field="*{box}" class="form-control" value="0" onchange="price()"/>
         </div>
         <div class="form-group">
           <label for="bed">ベッドの個数</label>
-          <input type="text" id="bed" name="bed" th:field="*{bed}" class="form-control" value="3"/>
+          <input type="number" min="0" id="bed" name="bed" th:field="*{bed}" class="form-control" value="0" onchange="price()"/>
         </div>
         <div class="form-group">
           <label for="bicycle">自転車の個数</label>
-          <input type="text" id="bicycle" name="bicycle" th:field="*{bicycle}" class="form-control" value="1"/>
+          <input type="number" min="0" id="bicycle" name="bicycle" th:field="*{bicycle}" class="form-control" value="0" onchange="price()"/>
         </div>
         <div class="form-group">
           <label for="washingMachine">洗濯機の個数</label>
-          <input type="text" id="washingMachine" name="washingMachine" th:field="*{washingMachine}" class="form-control"
-                 value="1"/>
+          <input type="number" min="0" id="washingMachine" name="washingMachine" th:field="*{washingMachine}" class="form-control" onchange="price()" value="0"/>
         </div>
+        <div class="sub-title">
+          <label for="total">段ボール換算数約</label>
+          <span id="total"></span>個　
+        </div>
+        <div class="sub-title2">
+        ※上限200個を超えた場合はオペレーターまでお電話ください（※）
+      </div>
         <div class="form-group">
           <label for="washingMachineInstallation">洗濯機の設置工事申し込み</label>
           <select id="washingMachineInstallation" name="washingMachineInstallation" class="form-control" th:field="*{washingMachineInstallation}">
@@ -107,5 +115,19 @@
 <script src="../js/popper.min.js" th:src="@{/js/popper.min.js}"></script>
 <script src="../js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
 </body>
+<script type="text/javascript">
 
+    function price(){
+    var box_num = document.getElementById("box").value;
+    var bed_num = document.getElementById("bed").value;
+    var bicycle_num = document.getElementById("bicycle").value;
+    var washingMachine_num = document.getElementById("washingMachine").value;
+
+    total = parseInt(box_num) + parseInt(bed_num)*20 + parseInt(bicycle_num)*15 + parseInt(washingMachine_num)*10;
+    if(isNaN(total)){
+      total = "（全ての項目を入力してください）"
+     }
+    document.getElementById('total').innerHTML = total;
+    }
+ </script>
 </html>
