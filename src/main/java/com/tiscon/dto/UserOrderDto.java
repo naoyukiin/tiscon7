@@ -12,6 +12,8 @@ public class UserOrderDto {
 
     private String oldAddress;
 
+    private String carryDate;
+
     private String newPrefectureId;
 
     private String newAddress;
@@ -64,6 +66,14 @@ public class UserOrderDto {
 
     public void setOldAddress(String oldAddress) {
         this.oldAddress = oldAddress;
+    }
+
+    public String getCarryDate() {
+        return carryDate;
+    }
+
+    public void setCarryDate(String carryDate) {
+        this.carryDate = carryDate;
     }
 
     public String getNewPrefectureId() {

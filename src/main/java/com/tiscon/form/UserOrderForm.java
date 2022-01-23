@@ -31,6 +31,9 @@ public class UserOrderForm {
     private String oldAddress;
 
     @NotBlank
+    private String carryDate;
+
+    @NotBlank
     private String newPrefectureId;
 
     @NotBlank
@@ -93,6 +96,14 @@ public class UserOrderForm {
 
     public void setOldAddress(String oldAddress) {
         this.oldAddress = oldAddress;
+    }
+
+    public String getCarryDate() {
+        return carryDate;
+    }
+
+    public void setCarryDate(String carryDate) {
+        this.carryDate = carryDate;
     }
 
     public String getNewPrefectureId() {
